@@ -1,11 +1,11 @@
 
 {
-  "name": "a2-builder-android",
+  "name": "a2-builder-android-wrapper",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-  "build": "node -e \"const fs=require('fs');if(!fs.existsSync('www/index.html'))throw new Error('www/index.html is missing');console.log('A² Builder files are ready')\""
-  }
+    "build": "node -e \"const fs=require('fs');if(!fs.existsSync('www/index.html'))throw new Error('www/index.html is missing');console.log('A² Builder files are ready')\""
+  },
   "dependencies": {
     "@capacitor/android": "^7.0.0",
     "@capacitor/core": "^7.0.0"
