@@ -1,11 +1,17 @@
-const fs = require('fs');
-const path = require('path');
-const source = path.join(__dirname, '..', 'web');
-const target = path.join(__dirname, '..', 'www');
-if (!fs.existsSync(path.join(source, 'index.html'))) {
-  console.error('Missing web/index.html. Add your A² Builder project files to the web/ folder.');
-  process.exit(1);
+
+const fs = require("fs");
+const path = require("path");
+
+const sourceDir = "www";
+const outputDir = "www";
+
+const indexFile = path.join(sourceDir, "index.html");
+
+if (!fs.existsSync(indexFile)) {
+  throw new Error(
+    "Cannot find www/index.html. Check the repository file locations."
+  );
 }
-fs.rmSync(target, { recursive: true, force: true });
-fs.cpSync(source, target, { recursive: true });
-console.log('Prepared web files for Capacitor.');
+
+console.log("A² Builder web files found.");
+console.log("Using the existing www folder without deleting app files.");
