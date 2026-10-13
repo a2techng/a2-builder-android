@@ -1,17 +1,16 @@
+
 {
-  "name": "a2-builder-android-wrapper",
+  "name": "a2-builder-android",
   "version": "1.0.0",
   "private": true,
-  "description": "Capacitor wrapper for A² Builder web projects",
   "scripts": {
-    "build": "node scripts/prepare-web.js",
-    "android:sync": "npx cap sync android"
+    "build": "node -e \"const fs=require('fs');fs.mkdirSync('www',{recursive:true});fs.cpSync('web','www',{recursive:true});if(!fs.existsSync('www/index.html'))throw new Error('web/index.html is missing')\""
   },
   "dependencies": {
-    "@capacitor/android": "^6.2.1",
-    "@capacitor/core": "^6.2.1"
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0"
   },
   "devDependencies": {
-    "@capacitor/cli": "^6.2.1"
+    "@capacitor/cli": "^7.0.0"
   }
 }
