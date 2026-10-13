@@ -1,0 +1,6 @@
+{
+  "appId": "com.a2builder.generatedapp",
+  "appName": "A2 Builder App",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

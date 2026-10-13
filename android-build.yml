@@ -1,0 +1,54 @@
+name: Build Android APK + AAB
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'web/**'
+      - 'package.json'
+      - 'capacitor.config.json'
+      - '.github/workflows/android-build.yml'
+permissions:
+  contents: read
+jobs:
+  android-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm install
+      - name: Prepare web assets
+        run: npm run build
+      - name: Add Android platform
+        run: npx cap add android
+      - name: Sync Android project
+        run: npx cap sync android
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Build APK and AAB
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug bundleRelease
+      - name: Collect build outputs
+        run: |
+          mkdir -p output
+          cp android/app/build/outputs/apk/debug/*.apk output/ || true
+          cp android/app/build/outputs/bundle/release/*.aab output/ || true
+          test -n "$(find output -type f \( -name '*.apk' -o -name '*.aab' \) -print -quit)"
+          ls -lh output
+      - name: Upload APK + AAB artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-build-output
+          path: output/*
+          if-no-files-found: error
+          retention-days: 7
